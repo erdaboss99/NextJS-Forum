@@ -50,13 +50,13 @@ const AdminNav: FC<AdminNavProps> = ({ navItems }): JSX.Element => {
 	return (
 		<nav
 			ref={navRef}
-			className='h-screen w-48 shadow-sm bg-secondary-light dark:bg-secondary-dark flex flex-col justify-between'>
+			className='h-screen w-48 shadow-sm bg-secondary-light dark:bg-secondary-dark flex flex-col justify-between transition-width duration-500 overflow-hidden'>
 			<div>
 				<Link className='flex items-center space-x-2 p-3 mb-10' href='/admin'>
 					<Logo className='fill-highlight-light dark:fill-highlight-dark w-5 h-5' />
 
 					{expandedNav && (
-						<span className='text-highlight-light dark:text-highlight-dark text-xl font-semibold'>
+						<span className='text-highlight-light dark:text-highlight-dark text-xl font-semibold leading-none'>
 							Admin
 						</span>
 					)}
@@ -70,7 +70,7 @@ const AdminNav: FC<AdminNavProps> = ({ navItems }): JSX.Element => {
 								className='flex items-center text-highlight-light dark:text-highlight-dark text-xl p-3 hover:scale-[0.98] transition'
 								href={item.href}>
 								<item.icon size={24} />
-								{expandedNav && <span className='ml-2'>{item.label}</span>}
+								{expandedNav && <span className='ml-2 leading-none'>{item.label}</span>}
 							</Link>
 						);
 					})}
