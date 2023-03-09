@@ -15,7 +15,7 @@ const NAV_EXPANSION = 'nav-expansion';
 
 const AdminNav: FC<AdminNavProps> = ({ navItems }): JSX.Element => {
 	const navRef = useRef<HTMLElement>(null);
-	const [expandedNav, setExpandedNav] = useState(true);
+	const [expandedNav, setExpandedNav] = useState(false);
 
 	const toggleNav = (isExpanded: boolean) => {
 		const currentNav = navRef.current;
@@ -43,14 +43,14 @@ const AdminNav: FC<AdminNavProps> = ({ navItems }): JSX.Element => {
 			setExpandedNav(newState);
 			toggleNav(!newState);
 		} else {
-			setExpandedNav(true);
+			setExpandedNav(false);
 		}
 	}, []);
 
 	return (
 		<nav
 			ref={navRef}
-			className='h-screen w-48 shadow-sm bg-secondary-light dark:bg-secondary-dark flex flex-col justify-between transition-width duration-500 overflow-hidden'>
+			className='h-screen w-12 shadow-sm bg-secondary-light dark:bg-secondary-dark flex flex-col justify-between transition-width duration-500 overflow-hidden sticky top-0'>
 			<div>
 				<Link className='flex items-center space-x-2 p-3 mb-10' href='/admin'>
 					<Logo className='fill-highlight-light dark:fill-highlight-dark w-5 h-5' />
