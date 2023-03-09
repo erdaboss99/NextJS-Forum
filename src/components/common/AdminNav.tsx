@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { IconType } from 'react-icons';
 import { RiMenuFoldFill, RiMenuUnfoldFill } from 'react-icons/ri';
 
@@ -11,22 +11,41 @@ interface AdminNavProps {
 
 const NAV_EXPANDED_WIDTH = 'w-48';
 const NAV_CLOSED_WIDTH = 'w-12';
+const NAV_EXPANSION = 'nav-expansion';
 
 const AdminNav: FC<AdminNavProps> = ({ navItems }): JSX.Element => {
 	const navRef = useRef<HTMLElement>(null);
 	const [expandedNav, setExpandedNav] = useState(true);
-	const updateNavState = () => {
+
+	const toggleNav = (isExpanded: boolean) => {
 		const currentNav = navRef.current;
 		if (!currentNav) return;
 
 		const { classList } = currentNav;
-		if (expandedNav) {
+		if (isExpanded) {
 			classList.replace(NAV_EXPANDED_WIDTH, NAV_CLOSED_WIDTH);
 		} else {
 			classList.replace(NAV_CLOSED_WIDTH, NAV_EXPANDED_WIDTH);
 		}
-		setExpandedNav(!expandedNav);
 	};
+
+	const updateNavState = () => {
+		toggleNav(expandedNav);
+		const newState = !expandedNav;
+		setExpandedNav(newState);
+		localStorage.setItem(NAV_EXPANSION, JSON.stringify(newState));
+	};
+
+	useEffect(() => {
+		const navState = localStorage.getItem(NAV_EXPANSION);
+		if (navState !== null) {
+			const newState = JSON.parse(navState);
+			setExpandedNav(newState);
+			toggleNav(!newState);
+		} else {
+			setExpandedNav(true);
+		}
+	}, []);
 
 	return (
 		<nav
