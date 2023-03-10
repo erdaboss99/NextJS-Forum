@@ -1,14 +1,17 @@
-import { FC } from 'react';
-import { EditorContent, useEditor } from '@tiptap/react';
+import { FC, useEffect, useState } from 'react';
+import { EditorContent, useEditor, getMarkRange, Range } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Toolbar from './toolbar/Toolbar';
+import EditLink from './link/EditLink';
 
 interface EditorProps {}
 
 const Editor: FC<EditorProps> = (props): JSX.Element => {
+	const [selectionRange, setSelectionRange] = useState<Range>();
+
 	const editor = useEditor({
 		extensions: [
 			StarterKit,
@@ -24,15 +27,26 @@ const Editor: FC<EditorProps> = (props): JSX.Element => {
 			Placeholder.configure({ placeholder: 'Type something...' }),
 		],
 		editorProps: {
+			handleClick(view, pos, event) {
+				const { state } = view;
+				const selectionRange = getMarkRange(state.doc.resolve(pos), state.schema.marks.link);
+				if (selectionRange) setSelectionRange(selectionRange);
+			},
 			attributes: {
 				class: 'prose prose-lg focus:outline-none dark:prose-invert max-w-full mx-auto h-full',
 			},
 		},
 	});
+
+	useEffect(() => {
+		if (editor && selectionRange) editor.commands.setTextSelection(selectionRange);
+	}, [editor, selectionRange]);
+
 	return (
 		<div className='p-3 bg-primary-light dark:bg-primary-dark'>
 			<Toolbar editor={editor} />
 			<div className='h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3' />
+			{editor ? <EditLink editor={editor} /> : null}
 			<EditorContent editor={editor} />
 		</div>
 	);

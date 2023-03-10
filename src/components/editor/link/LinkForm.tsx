@@ -1,10 +1,11 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { LinkOption } from '@/util/types';
 import { validateUrl } from '../editorUtils';
 
 interface LinkFormProps {
 	visible: boolean;
 	onSubmit(link: LinkOption): void;
+	initialState?: LinkOption;
 }
 
 const defaultLink: LinkOption = {
@@ -12,7 +13,7 @@ const defaultLink: LinkOption = {
 	openInNewTab: false,
 };
 
-const LinkForm: FC<LinkFormProps> = ({ visible, onSubmit }): JSX.Element | null => {
+const LinkForm: FC<LinkFormProps> = ({ visible, onSubmit, initialState }): JSX.Element | null => {
 	const [link, setLink] = useState<LinkOption>(defaultLink);
 
 	const handleSubmit = () => {
@@ -23,6 +24,10 @@ const LinkForm: FC<LinkFormProps> = ({ visible, onSubmit }): JSX.Element | null 
 	const resetForm = () => {
 		setLink({ ...defaultLink });
 	};
+
+	useEffect(() => {
+		if (initialState) setLink({ ...initialState });
+	}, [initialState]);
 
 	if (!visible) return null;
 
