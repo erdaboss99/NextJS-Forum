@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Editor } from '@tiptap/react';
 import DropdownOptions from '@/components/common/DropdownOptions';
 import Button from './Button';
-import { HeadingOptions, linkOption, ToolbarButton } from '@/util/types';
+import { HeadingOptions, LinkOption, ToolbarButton } from '@/util/types';
 import { getFocusedEditor } from '../editorUtils';
 import { AiFillCaretDown } from 'react-icons/ai';
 import {
@@ -112,7 +112,7 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 		},
 	];
 
-	const handleLinkSubmit = ({ url, openInNewTab }: linkOption) => {
+	const handleLinkSubmit = ({ url, openInNewTab }: LinkOption) => {
 		const { commands } = editor;
 		if (openInNewTab) commands.setLink({ href: url, target: '_blank' });
 		else commands.setLink({ href: url });
