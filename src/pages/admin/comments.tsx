@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import AdminLayout from '@/components/common/AdminLayout';
+import AdminLayout from '@/components/layout/AdminLayout';
 
 interface CommentsPageProps {}
 

@@ -7,7 +7,7 @@ import {
 	AiOutlineMail,
 	AiOutlineTeam,
 } from 'react-icons/ai';
-import AdminNav from './AdminNav';
+import AdminNav from '../common/AdminNav';
 
 interface AdminLayoutProps {
 	children: ReactNode;
