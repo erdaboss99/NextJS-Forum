@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Editor } from '@tiptap/react';
 import DropdownOptions from '@/components/common/DropdownOptions';
 import Button from './Button';
-import { HeadingOptions, ToolbarButton } from '@/util/types';
+import { HeadingOptions, linkOption, ToolbarButton } from '@/util/types';
 import { getFocusedEditor } from '../editorUtils';
 import { AiFillCaretDown } from 'react-icons/ai';
 import {
@@ -62,7 +62,7 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 		);
 	};
 
-	const buttons: ToolbarButton[] = [
+	const simpleButtons: ToolbarButton[] = [
 		{
 			icon: BsTypeBold,
 			isActive: editor.isActive('bold'),
@@ -112,12 +112,18 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 		},
 	];
 
+	const handleLinkSubmit = ({ url, openInNewTab }: linkOption) => {
+		const { commands } = editor;
+		if (openInNewTab) commands.setLink({ href: url, target: '_blank' });
+		else commands.setLink({ href: url });
+	};
+
 	return (
 		<div className='flex items-center'>
 			<DropdownOptions options={options} head={<Head />} />
 
 			<div className='flex items-center space-x-3'>
-				{buttons.map((item, index) => {
+				{simpleButtons.map((item, index) => {
 					return (
 						<React.Fragment key={'f' + index}>
 							{item.separatorBefore && (
@@ -134,7 +140,7 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 					);
 				})}
 				<div className='h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8' />
-				<InsertLink />
+				<InsertLink onSubmit={handleLinkSubmit} />
 
 				<Button>
 					<BsYoutube />
