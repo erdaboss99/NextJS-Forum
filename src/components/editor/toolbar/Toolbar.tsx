@@ -20,6 +20,7 @@ import {
 } from 'react-icons/bs';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import InsertLink from '../link/InsertLink';
+import EmbedYoutube from './EmbedYoutube';
 interface ToolbarProps {
 	editor: Editor | null;
 }
@@ -112,6 +113,10 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 		},
 	];
 
+	const handleEmbedYoutube = (url: string) => {
+		editor.chain().focus().setYoutubeVideo({ src: url }).run();
+	};
+
 	const handleLinkSubmit = ({ url, openInNewTab }: LinkOption) => {
 		const { commands } = editor;
 		if (openInNewTab) commands.setLink({ href: url, target: '_blank' });
@@ -142,9 +147,7 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 				<div className='h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8' />
 				<InsertLink onSubmit={handleLinkSubmit} />
 
-				<Button>
-					<BsYoutube />
-				</Button>
+				<EmbedYoutube onSubmit={handleEmbedYoutube} />
 
 				<Button>
 					<BsImageFill />

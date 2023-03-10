@@ -4,6 +4,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
+import Youtube from '@tiptap/extension-youtube';
 import Toolbar from './toolbar/Toolbar';
 import EditLink from './link/EditLink';
 
@@ -25,6 +26,13 @@ const Editor: FC<EditorProps> = (props): JSX.Element => {
 				},
 			}),
 			Placeholder.configure({ placeholder: 'Type something...' }),
+			Youtube.configure({
+				width: 840,
+				height: 472.5,
+				HTMLAttributes: {
+					class: 'mx-auto rounded',
+				},
+			}),
 		],
 		editorProps: {
 			handleClick(view, pos, event) {
