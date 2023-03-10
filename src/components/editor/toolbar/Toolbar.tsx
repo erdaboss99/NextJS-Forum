@@ -64,23 +64,53 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 	const buttons = [
 		{
 			icon: BsTypeBold,
-			separatorBefore: true,
+			active: editor.isActive('bold'),
 			onClick: () => getFocusedEditor(editor).toggleBold().run(),
+			separatorBefore: true,
 		},
-		{ icon: BsTypeItalic, onClick: () => getFocusedEditor(editor).toggleItalic().run() },
-		{ icon: BsTypeUnderline, onClick: () => getFocusedEditor(editor).toggleUnderline().run() },
-		{ icon: BsTypeStrikethrough, onClick: () => getFocusedEditor(editor).toggleStrike().run() },
+		{
+			icon: BsTypeItalic,
+			active: editor.isActive('italic'),
+			onClick: () => getFocusedEditor(editor).toggleItalic().run(),
+		},
+		{
+			icon: BsTypeUnderline,
+			active: editor.isActive('underline'),
+			onClick: () => getFocusedEditor(editor).toggleUnderline().run(),
+		},
+		{
+			icon: BsTypeStrikethrough,
+			active: editor.isActive('strike'),
+			onClick: () => getFocusedEditor(editor).toggleStrike().run(),
+		},
 		{
 			icon: RiDoubleQuotesL,
-			separatorBefore: true,
+			active: editor.isActive('blockquote'),
 			onClick: () => getFocusedEditor(editor).toggleBlockquote().run(),
+			separatorBefore: true,
 		},
-		{ icon: BsCode, onClick: () => getFocusedEditor(editor).toggleCode().run() },
-		{ icon: BsBraces, onClick: () => getFocusedEditor(editor).toggleCodeBlock().run() },
+		{
+			icon: BsCode,
+			active: editor.isActive('code'),
+			onClick: () => getFocusedEditor(editor).toggleCode().run(),
+		},
+		{
+			icon: BsBraces,
+			active: editor.isActive('codeBlock'),
+			onClick: () => getFocusedEditor(editor).toggleCodeBlock().run(),
+		},
 		{ icon: BsLink45Deg, onClick: () => {} }, //TODO
-		{ icon: BsListOl, onClick: () => getFocusedEditor(editor).toggleOrderedList().run() },
-		{ icon: BsListUl, onClick: () => getFocusedEditor(editor).toggleBulletList().run() },
-		{ icon: BsYoutube, separatorBefore: true, onClick: () => {} }, //TODO
+		{
+			icon: BsListOl,
+			active: editor.isActive('orderedList'),
+			onClick: () => getFocusedEditor(editor).toggleOrderedList().run(),
+		},
+		{
+			icon: BsListUl,
+			active: editor.isActive('bulletList'),
+			onClick: () => getFocusedEditor(editor).toggleBulletList().run(),
+		},
+		{ icon: BsYoutube, onClick: () => {}, separatorBefore: true }, //TODO
 		{ icon: BsImageFill, onClick: () => {} }, //TODO
 	];
 
@@ -99,7 +129,7 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 								/>
 							)}
 
-							<Button key={'b' + index} onClick={item.onClick}>
+							<Button key={'b' + index} active={item.active} onClick={item.onClick}>
 								<item.icon />
 							</Button>
 						</React.Fragment>
