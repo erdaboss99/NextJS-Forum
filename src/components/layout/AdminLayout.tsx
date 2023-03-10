@@ -1,5 +1,7 @@
 import { FC, ReactNode } from 'react';
 import Link from 'next/link';
+import { NavItem } from '@/util/types';
+import AdminNav from '../common/AdminNav';
 import {
 	AiOutlineContainer,
 	AiOutlineDashboard,
@@ -7,13 +9,12 @@ import {
 	AiOutlineMail,
 	AiOutlineTeam,
 } from 'react-icons/ai';
-import AdminNav from '../common/AdminNav';
 
 interface AdminLayoutProps {
 	children: ReactNode;
 }
 
-const navItems = [
+const navItems: NavItem[] = [
 	{ href: '/admin', icon: AiOutlineDashboard, label: 'Dashboard' },
 	{ href: '/admin/posts', icon: AiOutlineContainer, label: 'Posts' },
 	{ href: '/admin/users', icon: AiOutlineTeam, label: 'Users' },

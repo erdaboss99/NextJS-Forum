@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { Editor } from '@tiptap/react';
 import DropdownOptions from '@/components/common/DropdownOptions';
 import Button from './Button';
+import { HeadingOptions, ToolbarButton } from '@/util/types';
 import { getFocusedEditor } from '../editorUtils';
 import { AiFillCaretDown } from 'react-icons/ai';
 import {
@@ -26,7 +27,7 @@ interface ToolbarProps {
 const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 	if (!editor) return null;
 
-	const options = [
+	const options: HeadingOptions[] = [
 		{
 			label: 'Paragraph',
 			onClick: () => getFocusedEditor(editor).setParagraph().run(),
@@ -61,57 +62,54 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 		);
 	};
 
-	const buttons = [
+	const buttons: ToolbarButton[] = [
 		{
 			icon: BsTypeBold,
-			active: editor.isActive('bold'),
+			isActive: editor.isActive('bold'),
 			onClick: () => getFocusedEditor(editor).toggleBold().run(),
 			separatorBefore: true,
 		},
 		{
 			icon: BsTypeItalic,
-			active: editor.isActive('italic'),
+			isActive: editor.isActive('italic'),
 			onClick: () => getFocusedEditor(editor).toggleItalic().run(),
 		},
 		{
 			icon: BsTypeUnderline,
-			active: editor.isActive('underline'),
+			isActive: editor.isActive('underline'),
 			onClick: () => getFocusedEditor(editor).toggleUnderline().run(),
 		},
 		{
 			icon: BsTypeStrikethrough,
-			active: editor.isActive('strike'),
+			isActive: editor.isActive('strike'),
 			onClick: () => getFocusedEditor(editor).toggleStrike().run(),
 		},
 		{
 			icon: RiDoubleQuotesL,
-			active: editor.isActive('blockquote'),
+			isActive: editor.isActive('blockquote'),
 			onClick: () => getFocusedEditor(editor).toggleBlockquote().run(),
 			separatorBefore: true,
 		},
 		{
 			icon: BsCode,
-			active: editor.isActive('code'),
+			isActive: editor.isActive('code'),
 			onClick: () => getFocusedEditor(editor).toggleCode().run(),
 		},
 		{
 			icon: BsBraces,
-			active: editor.isActive('codeBlock'),
+			isActive: editor.isActive('codeBlock'),
 			onClick: () => getFocusedEditor(editor).toggleCodeBlock().run(),
 		},
-		{ icon: BsLink45Deg, onClick: () => {} }, //TODO
 		{
 			icon: BsListOl,
-			active: editor.isActive('orderedList'),
+			isActive: editor.isActive('orderedList'),
 			onClick: () => getFocusedEditor(editor).toggleOrderedList().run(),
 		},
 		{
 			icon: BsListUl,
-			active: editor.isActive('bulletList'),
+			isActive: editor.isActive('bulletList'),
 			onClick: () => getFocusedEditor(editor).toggleBulletList().run(),
 		},
-		{ icon: BsYoutube, onClick: () => {}, separatorBefore: true }, //TODO
-		{ icon: BsImageFill, onClick: () => {} }, //TODO
 	];
 
 	return (
@@ -129,12 +127,26 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 								/>
 							)}
 
-							<Button key={'b' + index} active={item.active} onClick={item.onClick}>
+							<Button key={'b' + index} active={item.isActive} onClick={item.onClick}>
 								<item.icon />
 							</Button>
 						</React.Fragment>
 					);
 				})}
+
+				<div className='h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8' />
+
+				<Button>
+					<BsLink45Deg />
+				</Button>
+
+				<Button>
+					<BsYoutube />
+				</Button>
+
+				<Button>
+					<BsImageFill />
+				</Button>
 			</div>
 		</div>
 	);
