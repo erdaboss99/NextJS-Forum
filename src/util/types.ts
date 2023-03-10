@@ -18,7 +18,7 @@ export type NavItem = {
 	label: string;
 };
 
-export type linkOption = {
+export type LinkOption = {
 	url: string;
 	openInNewTab: boolean;
 };

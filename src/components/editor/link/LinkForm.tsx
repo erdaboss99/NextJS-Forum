@@ -1,19 +1,27 @@
 import { FC, useState } from 'react';
-import { linkOption } from '@/util/types';
+import { LinkOption } from '@/util/types';
 import { validateUrl } from '../editorUtils';
 
 interface LinkFormProps {
 	visible: boolean;
-	onSubmit(link: linkOption): void;
+	onSubmit(link: LinkOption): void;
 }
 
+const defaultLink: LinkOption = {
+	url: '',
+	openInNewTab: false,
+};
+
 const LinkForm: FC<LinkFormProps> = ({ visible, onSubmit }): JSX.Element | null => {
-	const [link, setLink] = useState<linkOption>({ url: '', openInNewTab: false });
+	const [link, setLink] = useState<LinkOption>(defaultLink);
 
 	const handleSubmit = () => {
-		if (!link.url.trim()) return;
-
 		onSubmit({ ...link, url: validateUrl(link.url) });
+		resetForm();
+	};
+
+	const resetForm = () => {
+		setLink({ ...defaultLink });
 	};
 
 	if (!visible) return null;
