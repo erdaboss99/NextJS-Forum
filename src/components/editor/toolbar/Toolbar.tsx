@@ -13,13 +13,13 @@ import {
 	BsTypeStrikethrough,
 	BsCode,
 	BsBraces,
-	BsLink45Deg,
 	BsListOl,
 	BsListUl,
 	BsImageFill,
 	BsYoutube,
 } from 'react-icons/bs';
 import { RiDoubleQuotesL } from 'react-icons/ri';
+import InsertLink from '../link/InsertLink';
 interface ToolbarProps {
 	editor: Editor | null;
 }
@@ -133,12 +133,8 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 						</React.Fragment>
 					);
 				})}
-
 				<div className='h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8' />
-
-				<Button>
-					<BsLink45Deg />
-				</Button>
+				<InsertLink />
 
 				<Button>
 					<BsYoutube />
@@ -147,6 +143,7 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 				<Button>
 					<BsImageFill />
 				</Button>
+				<div className='h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8' />
 			</div>
 		</div>
 	);
