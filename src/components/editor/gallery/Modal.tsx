@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, ReactNode, useState } from 'react';
+import { ChangeEventHandler, FC, ReactNode, useCallback, useState } from 'react';
 import Image from 'next/image';
 import ModalContainer from '@/components/common/ModalContainer';
 import Gallery from './Gallery';
@@ -10,7 +10,7 @@ interface ModalProps {
 	children: ReactNode;
 	visible?: boolean;
 	onClose?(): void;
-	onImageSelect(image: File): void;
+	onFileSelect(image: File): void;
 	onSelect(result: ImageSelectionResult): void;
 }
 
@@ -40,10 +40,12 @@ const Modal: FC<ModalProps> = ({
 	children,
 	onClose,
 	onSelect,
-	onImageSelect,
+	onFileSelect,
 }): JSX.Element => {
 	const [selectedImage, setSelectedImage] = useState('');
 	const [altText, setAltText] = useState('');
+
+	const handleClose = useCallback(() => onClose && onClose(), [onClose]);
 
 	const handleOnImageChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
 		const { files } = target;
@@ -52,14 +54,15 @@ const Modal: FC<ModalProps> = ({
 
 		const file = files[0];
 
-		if (file.type.startsWith('image')) return onClose && onClose();
+		if (file.type.startsWith('image')) return handleClose();
 
-		onImageSelect(file);
+		onFileSelect(file);
 	};
 
 	const handleSelection = () => {
-		if (!selectedImage) return onClose && onClose();
+		if (!selectedImage) return handleClose();
 		onSelect({ src: selectedImage, altText });
+		handleClose();
 	};
 
 	return (

@@ -5,6 +5,8 @@ import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Youtube from '@tiptap/extension-youtube';
+import Image from '@tiptap/extension-image';
+import { ImageSelectionResult } from '@/util/types';
 import Toolbar from './toolbar/Toolbar';
 import EditLink from './link/EditLink';
 import Modal from './gallery/Modal';
@@ -35,6 +37,11 @@ const Editor: FC<EditorProps> = (props): JSX.Element => {
 					class: 'mx-auto rounded',
 				},
 			}),
+			Image.configure({
+				HTMLAttributes: {
+					class: 'mx-auto',
+				},
+			}),
 		],
 		editorProps: {
 			handleClick(view, pos, event) {
@@ -47,6 +54,10 @@ const Editor: FC<EditorProps> = (props): JSX.Element => {
 			},
 		},
 	});
+
+	const handleImageSelection = (result: ImageSelectionResult) => {
+		editor?.chain().focus().setImage({ src: result.src, alt: result.altText }).run();
+	};
 
 	useEffect(() => {
 		if (editor && selectionRange) editor.commands.setTextSelection(selectionRange);
@@ -63,10 +74,10 @@ const Editor: FC<EditorProps> = (props): JSX.Element => {
 			<Modal
 				visible={showGallery}
 				onClose={() => setShowGallery(false)}
-				onImageSelect={() => {
+				onFileSelect={() => {
 					/* TODO */
 				}}
-				onSelect={(result) => console.log(result)}>
+				onSelect={handleImageSelection}>
 				<></>
 			</Modal>
 		</>
