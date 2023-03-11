@@ -22,3 +22,8 @@ export type LinkOption = {
 	url: string;
 	openInNewTab: boolean;
 };
+
+export interface ImageSelectionResult {
+	src: string;
+	altText: string;
+}

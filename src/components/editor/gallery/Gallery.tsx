@@ -1,36 +1,37 @@
 import { FC } from 'react';
+import { BsCardImage } from 'react-icons/bs';
 import Image from './Image';
 
-interface GalleryProps {}
+interface GalleryProps {
+	images: { src: string }[];
+	onSelect(src: string): void;
+	uploading?: boolean;
+	selectedImage?: string;
+}
 
-const images = [
-	{
-		src: 'https://images.unsplash.com/photo-1678497178543-dde658d2e732?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-	},
-	{
-		src: 'https://images.unsplash.com/photo-1678541321429-76d921007858?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-	},
-	{
-		src: 'https://images.unsplash.com/photo-1678510131275-f39a62d323f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-	},
-	{
-		src: 'https://images.unsplash.com/photo-1678509651605-f2c0fa01c49a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
-	},
-	{
-		src: 'https://images.unsplash.com/photo-1678510131580-af8620b477e6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-	},
-	{
-		src: 'https://images.unsplash.com/photo-1678523037293-fac7a6d60134?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1524&q=80',
-	},
-];
-
-const Gallery: FC<GalleryProps> = (props): JSX.Element => {
+const Gallery: FC<GalleryProps> = ({
+	images,
+	onSelect,
+	uploading = false,
+	selectedImage = '',
+}): JSX.Element => {
 	return (
 		<div className='flex flex-wrap'>
+			{uploading && (
+				<div className='basis-1/4 p-2 aspect-square flex flex-col items-center justify-center bg-secondary-light text-primary-dark rounded animate-pulse'>
+					<BsCardImage size={60} />
+					<p> Uploading...</p>
+				</div>
+			)}
 			{images.map(({ src }, index) => {
 				return (
 					<div key={'d' + index} className='basis-1/4 p-2'>
-						<Image src={src} alt='' selected={index === 1} />
+						<Image
+							src={src}
+							alt=''
+							selected={selectedImage === src}
+							onClick={() => onSelect(src)}
+						/>
 					</div>
 				);
 			})}
