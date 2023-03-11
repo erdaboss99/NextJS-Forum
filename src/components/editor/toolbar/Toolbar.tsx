@@ -132,13 +132,10 @@ const Toolbar: FC<ToolbarProps> = ({ editor, onOpenImageClick }): JSX.Element | 
 					return (
 						<React.Fragment key={'f' + index}>
 							{item.separatorBefore && (
-								<div
-									key={'s' + index}
-									className='h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8'
-								/>
+								<div className='h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8' />
 							)}
 
-							<Button key={'b' + index} active={item.isActive} onClick={item.onClick}>
+							<Button active={item.isActive} onClick={item.onClick}>
 								<item.icon />
 							</Button>
 						</React.Fragment>

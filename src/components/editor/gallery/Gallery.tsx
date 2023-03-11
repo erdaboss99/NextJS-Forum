@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Image from './Image';
 
 interface GalleryProps {}
 
@@ -28,8 +29,8 @@ const Gallery: FC<GalleryProps> = (props): JSX.Element => {
 		<div className='flex flex-wrap'>
 			{images.map(({ src }, index) => {
 				return (
-					<div key={'d' + index} className='basis-1/4'>
-						<img key={'i' + index} src={src} alt='' />
+					<div key={'d' + index} className='basis-1/4 p-2'>
+						<Image src={src} alt='' selected={index === 1} />
 					</div>
 				);
 			})}
