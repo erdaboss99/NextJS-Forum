@@ -7,11 +7,13 @@ import Link from '@tiptap/extension-link';
 import Youtube from '@tiptap/extension-youtube';
 import Toolbar from './toolbar/Toolbar';
 import EditLink from './link/EditLink';
+import Modal from './gallery/Modal';
 
 interface EditorProps {}
 
 const Editor: FC<EditorProps> = (props): JSX.Element => {
 	const [selectionRange, setSelectionRange] = useState<Range>();
+	const [showGallery, setShowGallery] = useState(false);
 
 	const editor = useEditor({
 		extensions: [
@@ -51,12 +53,17 @@ const Editor: FC<EditorProps> = (props): JSX.Element => {
 	}, [editor, selectionRange]);
 
 	return (
-		<div className='p-3 bg-primary-light dark:bg-primary-dark'>
-			<Toolbar editor={editor} />
-			<div className='h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3' />
-			{editor ? <EditLink editor={editor} /> : null}
-			<EditorContent editor={editor} />
-		</div>
+		<>
+			<div className='p-3 bg-primary-light dark:bg-primary-dark'>
+				<Toolbar editor={editor} onOpenImageClick={() => setShowGallery(true)} />
+				<div className='h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3' />
+				{editor ? <EditLink editor={editor} /> : null}
+				<EditorContent editor={editor} />
+			</div>
+			<Modal visible={showGallery} onClose={() => setShowGallery(false)}>
+				<></>
+			</Modal>
+		</>
 	);
 };
 

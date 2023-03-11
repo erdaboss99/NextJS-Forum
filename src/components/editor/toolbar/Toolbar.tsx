@@ -16,16 +16,16 @@ import {
 	BsListOl,
 	BsListUl,
 	BsImageFill,
-	BsYoutube,
 } from 'react-icons/bs';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import InsertLink from '../link/InsertLink';
 import EmbedYoutube from './EmbedYoutube';
 interface ToolbarProps {
 	editor: Editor | null;
+	onOpenImageClick?(): void;
 }
 
-const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
+const Toolbar: FC<ToolbarProps> = ({ editor, onOpenImageClick }): JSX.Element | null => {
 	if (!editor) return null;
 
 	const options: HeadingOptions[] = [
@@ -149,7 +149,7 @@ const Toolbar: FC<ToolbarProps> = ({ editor }): JSX.Element | null => {
 
 				<EmbedYoutube onSubmit={handleEmbedYoutube} />
 
-				<Button>
+				<Button onClick={onOpenImageClick}>
 					<BsImageFill />
 				</Button>
 				<div className='h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8' />
