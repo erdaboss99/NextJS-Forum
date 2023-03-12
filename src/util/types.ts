@@ -1,3 +1,4 @@
+import formidable from 'formidable';
 import type { IconType } from 'react-icons';
 
 export type ToolbarButton = {
@@ -26,4 +27,9 @@ export type LinkOption = {
 export interface ImageSelectionResult {
 	src: string;
 	altText: string;
+}
+
+export interface FormidablePromise {
+	files: formidable.Files;
+	body: formidable.Fields;
 }
