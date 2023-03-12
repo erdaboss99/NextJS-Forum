@@ -10,12 +10,19 @@ import { ImageSelectionResult } from '@/util/types';
 import Toolbar from './toolbar/Toolbar';
 import EditLink from './link/EditLink';
 import Modal from './gallery/Modal';
+import axios from 'axios';
 
 interface EditorProps {}
 
 const Editor: FC<EditorProps> = (props): JSX.Element => {
 	const [selectionRange, setSelectionRange] = useState<Range>();
 	const [showGallery, setShowGallery] = useState(false);
+	const [images, setImages] = useState<{ src: string }[]>([]);
+
+	const fetchImages = async () => {
+		const { data } = await axios('/api/image');
+		setImages(data.images);
+	};
 
 	const editor = useEditor({
 		extensions: [
@@ -63,6 +70,10 @@ const Editor: FC<EditorProps> = (props): JSX.Element => {
 		if (editor && selectionRange) editor.commands.setTextSelection(selectionRange);
 	}, [editor, selectionRange]);
 
+	useEffect(() => {
+		fetchImages();
+	}, []);
+
 	return (
 		<>
 			<div className='p-3 bg-primary-light dark:bg-primary-dark'>
@@ -73,6 +84,7 @@ const Editor: FC<EditorProps> = (props): JSX.Element => {
 			</div>
 			<Modal
 				visible={showGallery}
+				images={images}
 				onClose={() => setShowGallery(false)}
 				onFileSelect={() => {
 					/* TODO */
