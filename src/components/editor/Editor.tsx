@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { EditorContent, useEditor, getMarkRange, Range } from '@tiptap/react';
+import axios from 'axios';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -10,18 +11,28 @@ import { ImageSelectionResult } from '@/util/types';
 import Toolbar from './toolbar/Toolbar';
 import EditLink from './link/EditLink';
 import Modal from './gallery/Modal';
-import axios from 'axios';
 
 interface EditorProps {}
 
 const Editor: FC<EditorProps> = (props): JSX.Element => {
 	const [selectionRange, setSelectionRange] = useState<Range>();
 	const [showGallery, setShowGallery] = useState(false);
+	const [uploading, setUploading] = useState(false);
 	const [images, setImages] = useState<{ src: string }[]>([]);
 
 	const fetchImages = async () => {
 		const { data } = await axios('/api/image');
 		setImages(data.images);
+	};
+
+	const handleImageUpload = async (image: File) => {
+		setUploading(true);
+		const formData = new FormData();
+		formData.append('image', image);
+		const { data } = await axios.post('/api/image', formData);
+		setUploading(false);
+
+		setImages([data, ...images]);
 	};
 
 	const editor = useEditor({
@@ -85,13 +96,10 @@ const Editor: FC<EditorProps> = (props): JSX.Element => {
 			<Modal
 				visible={showGallery}
 				images={images}
+				uploading={uploading}
 				onClose={() => setShowGallery(false)}
-				onFileSelect={() => {
-					/* TODO */
-				}}
-				onSelect={handleImageSelection}>
-				<></>
-			</Modal>
+				onFileSelect={handleImageUpload}
+				onSelect={handleImageSelection}></Modal>
 		</>
 	);
 };

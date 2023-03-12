@@ -7,18 +7,18 @@ import { ImageSelectionResult } from '@/util/types';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 
 interface ModalProps {
-	children: ReactNode;
 	visible?: boolean;
 	images: { src: string }[];
+	uploading?: boolean;
 	onClose?(): void;
 	onFileSelect(image: File): void;
 	onSelect(result: ImageSelectionResult): void;
 }
 
 const Modal: FC<ModalProps> = ({
-	children,
 	visible,
 	images,
+	uploading,
 	onClose,
 	onSelect,
 	onFileSelect,
@@ -35,7 +35,7 @@ const Modal: FC<ModalProps> = ({
 
 		const file = files[0];
 
-		if (file.type.startsWith('image')) return handleClose();
+		if (!file.type.startsWith('image')) return handleClose();
 
 		onFileSelect(file);
 	};
@@ -53,6 +53,7 @@ const Modal: FC<ModalProps> = ({
 					<div className='basis-[75%] max-h-[450px] overflow-y-auto custom-scroll-bar'>
 						<Gallery
 							images={images}
+							uploading={uploading}
 							onSelect={(src) => setSelectedImage(src)}
 							selectedImage={selectedImage}
 						/>
@@ -80,12 +81,7 @@ const Modal: FC<ModalProps> = ({
 
 									<ActionButton onClick={handleSelection} title='Select' />
 									<div className='relative aspect-video'>
-										<Image
-											src={selectedImage}
-											layout='fill'
-											alt=''
-											style={{ objectFit: 'contain' }}
-										/>
+										<Image src={selectedImage} fill alt='' style={{ objectFit: 'contain' }} />
 									</div>
 								</>
 							) : null}
