@@ -34,6 +34,19 @@ const uploadNewImage: NextApiHandler = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
-const readAllImages: NextApiHandler = (req, res) => {};
+const readAllImages: NextApiHandler = async (req, res) => {
+	try {
+		const { resources } = await cloudinary.api.resources({
+			resource_type: 'image',
+			type: 'upload',
+			prefix: uploadFolder,
+		});
+
+		const images = resources.map(({ secure_url }: any) => ({ src: secure_url }));
+		res.status(200).json({ images });
+	} catch (error: any) {
+		res.status(500).json({ error: error.mesage });
+	}
+};
 
 export default handler;
